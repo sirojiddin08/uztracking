@@ -1,0 +1,18 @@
+{
+  "name": "uztracking-3.0",
+  "version": "3.0.0",
+  "description": "UzTracking Receiver v3.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "Azamjon",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "http-string-parser": "0.0.6",
+    "joi": "^17.4.0",
+    "moment": "^2.29.1",
+    "pg": "^8.6.0"
+  }
+}
