@@ -16,7 +16,7 @@ const schema = Joi.object({
     battery_level: Joi.number().optional().default(0),
     message: Joi.string().required(),
     args: Joi.object({
-        charging: Joi.boolean().optional().default(null), //Joi.bool().optional().default(false),
+        charging: Joi.boolean().optional().allow(null).default(false), //Joi.bool().optional().default(false),
         altitude: Joi.number().optional().default(0),
         sattelites: Joi.number().optional().default(0)
     }).optional().default({})
