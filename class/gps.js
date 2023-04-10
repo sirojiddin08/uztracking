@@ -63,7 +63,7 @@ class GPS extends EventEmitter {
             .on('error', (err) => device.emit('error', new Context(null, err)))
             .on('msg', (msg) => {
                 this.protocols[device.pIndex]
-                    .execute(msg, (data) => console.log('its data coming from gps ', data))
+                    .execute(msg, (data) => console.log('its data coming from gpss ', data))
                     // .execute(msg, (data) => db.write(device.UID, data))
                     .then((data) => {
                         if (data && socket.writable) {
