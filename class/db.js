@@ -13,7 +13,7 @@ const schema = Joi.object({
     }).required(),
     speed: Joi.number().required(),
     angle: Joi.number().required(),
-    battery_level: Joi.number().optional().default(0), 
+    battery_level: Joi.number().optional().default(0),
     message: Joi.string().required(),
     args: Joi.object({
         charging: Joi.boolean().optional().default(null), //Joi.bool().optional().default(false),
@@ -52,32 +52,32 @@ module.exports = {
      */
     write: (uid, data) => {
         const { value, error } = schema.validate(data);
-        console.log('data came ', value);
-
-        const pool = new Pool(DB);
-        pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon) 
+        
+        if (error) {
+            console.log('Error data came ', data);
+            return console.error("Validate Error:", error.details[0].message);
+        } else {
+            console.log('True data came ', value);
+            const pool = new Pool(DB);
+            pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon) 
                     VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12);`, [
-            uid,
-            value.keyword,
-            value.date_time,
-            value.coordinate.lng,
-            value.coordinate.lat,
-            value.speed,
-            value.angle,
-            value.battery_level,
-            value.message,
-            JSON.stringify(value.args),
-            value.coordinate.lat,
-            value.coordinate.lng
-        ], (err) => {
-            pool.end();
-            if (err)
-                console.error("DB Error:", err);
-        });
-
-        // if (error) {
-        //     console.log('Error data came ', data);
-        //     return console.error("Validate Error:", error.details[0].message);
-        // } 
+                uid,
+                value.keyword,
+                value.date_time,
+                value.coordinate.lng,
+                value.coordinate.lat,
+                value.speed,
+                value.angle,
+                value.battery_level,
+                value.message,
+                JSON.stringify(value.args),
+                value.coordinate.lat,
+                value.coordinate.lng
+            ], (err) => {
+                pool.end();
+                if (err)
+                    console.error("DB Error:", err);
+            });
+        }
     }
 }
