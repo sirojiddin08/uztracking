@@ -60,8 +60,8 @@ module.exports = {
         } else {
             console.log('True data came ', value);
             const pool = new Pool(DB);
-            pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon) 
-                    VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12);`, [
+            pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+                    VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
                 uid,
                 value.keyword,
                 value.date_time,
@@ -73,7 +73,8 @@ module.exports = {
                 value.message,
                 JSON.stringify(value.args),
                 value.coordinate.lat,
-                value.coordinate.lng
+                value.coordinate.lng,
+                value.ignition
             ], (err) => {
                 pool.end();
                 if (err)
