@@ -39,6 +39,7 @@ module.exports = class extends Protocol(false) {
                     lat: this._parse.lat(),
                     lng: this._parse.lng()
                 },
+				ignition: this._parse.ignition(),
                 speed: this._parse.speed(),
                 angle: this._parse.angle(),
                 battery_level: this._parse.batteryLevel(), 
@@ -135,6 +136,45 @@ module.exports = class extends Protocol(false) {
 		
 		message: function() {
 			return this._hexData.substr(20, 68);
-		}
+		},
+
+		ignition: function() {
+			// Assuming the ignition data is a single byte (8 bits) at offset 68
+			// in the buffer, you can extract the value as follows:
+			let ignitionByte = this._hex2dec(68, 1);
+		
+			// Assuming the ignition data uses a certain bit within the byte to
+			// represent the ignition state (e.g., bit 0), you can extract the
+			// ignition state using bitwise operations:
+			let ignitionState = (ignitionByte & 0x01) !== 0;
+		
+			// Return the ignition state (true for ON, false for OFF)
+			return ignitionState;
+		},
+
+		// ignition: function() {
+		// 	var isCharging = this.isCharging();
+		// 	var batteryLevel = this.batteryLevel();
+		
+		// 	// If isCharging is null, ignition status cannot be determined
+		// 	if (isCharging === null) {
+		// 		return null;
+		// 	}
+		
+		// 	// If batteryLevel is 0, ignition status cannot be determined
+		// 	if (batteryLevel === 0) {
+		// 		return null;
+		// 	}
+		
+		// 	// If isCharging is true or batteryLevel is 100, ignition is on
+		// 	if (isCharging || batteryLevel === 100) {
+		// 		return true;
+		// 	}
+		
+		// 	// If isCharging is false and batteryLevel is less than 100, ignition is off
+		// 	return false;
+		// }
+		
+		
 	}
 }

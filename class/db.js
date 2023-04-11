@@ -11,6 +11,7 @@ const schema = Joi.object({
         lat: Joi.number().required().min(-90).max(90),
         lng: Joi.number().required().min(-180).max(180)
     }).required(),
+    ignition: Joi.any(),
     speed: Joi.number().required(),
     angle: Joi.number().required(),
     battery_level: Joi.number().optional().default(0),
