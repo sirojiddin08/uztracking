@@ -114,7 +114,7 @@ class GPS extends EventEmitter {
             if (protocol.validate(msg)) {
                 device.pIndex = i;
                 device.IMEI = protocol.getIMEI(msg);
-                device.UID = 359633101468598 // await db.getDeviceUID(device.IMEI);
+                device.UID = device.IMEI// await db.getDeviceUID(device.IMEI);
                 if (device.UID > -1)
                     return done(true);
                 else
