@@ -3,8 +3,9 @@ const net = require('net');
 const path = require('path');
 const fs = require('fs');
 const db = require('./db');
+const db71 = require('./db71');
 const Protocol = new (require("./protocol")(false))();
-const {Device, Context} = require("./device");
+const { Device, Context } = require("./device");
 const { APP } = require("../config");
 const EventEmitter = require('events');
 
@@ -23,7 +24,7 @@ class GPS extends EventEmitter {
         fs.readdirSync(path.join(__dirname, '..', APP.SCAN_DIR)).map(item => {
             let p, n = path.parse(item).name;
             p = require(`../${APP.SCAN_DIR}/${n}`);
-            this.protocols.push(new p());            
+            this.protocols.push(new p());
         });
     }
 
@@ -49,28 +50,31 @@ class GPS extends EventEmitter {
                 device.emit('message', new Context(msg));
                 if (!device.UID) {
                     return this.ident(device, msg, (found) => {
-                        if (found) 
+                        if (found)
                             socket.emit('msg', msg);
                         else {
                             device.emit('reject', new Context(msg));
                             socket.end();
                         }
                     });
-                } else 
+                } else
                     socket.emit('msg', msg);
             })
-            .on('end', () => device.emit('disconnect'))
-            .on('error', (err) => device.emit('error', new Context(null, err)))
-            .on('msg', (msg) => {
-                this.protocols[device.pIndex]
-                    // .execute(msg, (data) => console.log('its data coming from gpss ', data))
-                    .execute(msg, (data) => db.write(device.UID, data))
-                    .then((data) => {
-                        if (data && socket.writable) {
-                            socket[this.protocols[device.pIndex].FuncName](data);
-                        }
-                    });
-            });
+                .on('end', () => device.emit('disconnect'))
+                .on('error', (err) => device.emit('error', new Context(null, err)))
+                .on('msg', (msg) => {
+                    this.protocols[device.pIndex]
+                        // .execute(msg, (data) => console.log('its data coming from gpss ', data))
+                        .execute(msg, (data) => {
+                            db.write(device.UID, data)
+                            db71.write(device.UID, data)
+                        })
+                        .then((data) => {
+                            if (data && socket.writable) {
+                                socket[this.protocols[device.pIndex].FuncName](data);
+                            }
+                        });
+                });
         }).listen(opt, () => this.emit('start', opt));
         return this;
     }
@@ -92,7 +96,7 @@ class GPS extends EventEmitter {
     // @ts-ignore
     on(event, listener) {
         super.on(event, listener);
-        return this;   
+        return this;
     }
 
     /**

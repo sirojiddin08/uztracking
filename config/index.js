@@ -16,5 +16,13 @@ module.exports = {
         password: 'postgres', //process.env.DB_PASSWORD,
         database: 'oxrana_gps', //process.env.DB_NAME,
         application_name: 'UzTracking v3.0' //process.env.APPLICATION_NAME,
+    },
+    DB71: {
+        host: '10.100.9.171', //process.env.DB_HOST,
+        port: 5432, //process.env.DB_PORT,
+        user: 'postgres', //process.env.DB_USER,
+        password: 'postgres', //process.env.DB_PASSWORD,
+        database: 'oxrana_monitoring_regions', //process.env.DB_NAME,
+        application_name: 'UzTracking v3.0' //process.env.APPLICATION_NAME,
     }
 };
