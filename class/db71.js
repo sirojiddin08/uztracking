@@ -60,7 +60,7 @@ module.exports = {
         } else {
             console.log('True data came ', value);
             const pool = new Pool(DB71);
-            pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+            pool.query(`INSERT INTO reports.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`, [
                 uid,
                 value.keyword,
