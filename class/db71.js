@@ -74,23 +74,23 @@ module.exports = {
                     args = $8,
                     lat = $9,
                     lon = $10,
-                    ignition = $11;`, 
+                    ignition = $11;`,
                 [uid,
-                value.keyword,
-                value.date_time,
-                value.speed,
-                value.angle,
-                value.battery_level,
-                value.message,
-                JSON.stringify(value.args),
-                value.coordinate.lat,
-                value.coordinate.lng,
-                value.ignition
-            ], (err) => {
-                pool.end();
-                if (err)
-                    console.error("DB71 Error:", err);
-            });
+                    value.keyword,
+                    value.date_time,
+                    value.speed,
+                    value.angle,
+                    value.battery_level,
+                    value.message,
+                    JSON.stringify(value.args),
+                    value.coordinate.lat,
+                    value.coordinate.lng,
+                    value.ignition
+                ], (err) => {
+                    pool.end();
+                    if (err)
+                        console.error("DB71 Error:", err);
+                });
         }
     }
 }
