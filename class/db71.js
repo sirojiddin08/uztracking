@@ -53,16 +53,29 @@ module.exports = {
      */
     write: (uid, data) => {
         const { value, error } = schema.validate(data);
-        
+
         if (error) {
             console.log('Error data came ', data);
             return console.error("Validate Error:", error.details[0].message);
         } else {
             console.log('True data came ', value);
             const pool = new Pool(DB71);
-            pool.query(`INSERT INTO reports.tracking (device_id, keyword, date_time, speed, angle, battery_level, message, args, lat, lon, ignition) 
-                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`, [
-                uid,
+            pool.query(`
+                    INSERT INTO reports.tracking (device_id, keyword, date_time, speed, angle, battery_level, message, args, lat, lon, ignition) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+                    ON CONFLICT (device_id) DO UPDATE
+                    SET 
+                    keyword = $2,
+                    date_time = $3,
+                    speed = $4,
+                    angle = $5,
+                    battery_level = $6,
+                    message = $7,
+                    args = $8,
+                    lat = $9,
+                    lon = $10,
+                    ignition = $11;`, 
+                [uid,
                 value.keyword,
                 value.date_time,
                 value.speed,
