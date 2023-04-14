@@ -8,8 +8,8 @@ const schema = Joi.object({
     keyword: Joi.string().optional().default('0'),
     date_time: Joi.date().required(),
     coordinate: Joi.object({
-        lat: Joi.number().required().min(-90).max(90),
-        lng: Joi.number().required().min(-180).max(180)
+        lat: Joi.number().required().min(-90).max(90).not(0),
+        lng: Joi.number().required().min(-180).max(180).not(0)
     }).required(),
     ignition: Joi.boolean().required(),
     speed: Joi.number().required(),
@@ -53,7 +53,7 @@ module.exports = {
      */
     write: (uid, data) => {
         const { value, error } = schema.validate(data);
-        
+
         if (error) {
             console.log('Error data came ', data);
             return console.error("Validate Error:", error.details[0].message);
