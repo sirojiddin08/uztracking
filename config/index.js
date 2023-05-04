@@ -18,7 +18,7 @@ module.exports = {
         application_name: 'UzTracking v3.0' //process.env.APPLICATION_NAME,
     },
     DB71: {
-        host: '10.100.9.171', //process.env.DB_HOST,
+        host: '10.119.0.11', //process.env.DB_HOST,
         port: 5432, //process.env.DB_PORT,
         user: 'postgres', //process.env.DB_USER,
         password: 'postgres', //process.env.DB_PASSWORD,
