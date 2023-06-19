@@ -51,19 +51,69 @@ module.exports = {
      * @param {Data} data 
      * @returns {Promise<number> | void}
      */
+    // write: (uid, data) => {
+    //     const { value, error } = schema.validate(data);
+
+    //     if (error) {
+    //         console.log('Error data came ', data);
+    //         const pool = new Pool(DB);
+    //         pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+    //                 VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
+    //             uid,
+    //             value.keyword,
+    //             value.date_time,
+    //             value.coordinate.lng,
+    //             value.coordinate.lat,
+    //             value.speed,
+    //             value.angle,
+    //             value.battery_level,
+    //             value.message,
+    //             JSON.stringify(value.args),
+    //             value.coordinate.lat,
+    //             value.coordinate.lng,
+    //             value.ignition
+    //         ], (err) => {
+    //             pool.end();
+    //             if (err)
+    //                 console.error("DB Error:", err);
+    //         });
+    //         return console.error("Validate Error:", error.details[0].message);
+    //     } else {
+    //         console.log('True data came ', value);
+    //         const pool = new Pool(DB);
+    //         pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+    //                 VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
+    //             uid,
+    //             value.keyword,
+    //             value.date_time,
+    //             value.coordinate.lng,
+    //             value.coordinate.lat,
+    //             value.speed,
+    //             value.angle,
+    //             value.battery_level,
+    //             value.message,
+    //             JSON.stringify(value.args),
+    //             value.coordinate.lat,
+    //             value.coordinate.lng,
+    //             value.ignition
+    //         ], (err) => {
+    //             pool.end();
+    //             if (err)
+    //                 console.error("DB Error:", err);
+    //         });
+    //     }
+    // }
     write: (uid, data) => {
         const { value, error } = schema.validate(data);
 
         if (error) {
             console.log('Error data came ', data);
             const pool = new Pool(DB);
-            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
-                    VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
+            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, speed, angle, battery_level, message, args, lat, lon, ignition) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`, [
                 uid,
                 value.keyword,
                 value.date_time,
-                value.coordinate.lng,
-                value.coordinate.lat,
                 value.speed,
                 value.angle,
                 value.battery_level,
@@ -81,13 +131,11 @@ module.exports = {
         } else {
             console.log('True data came ', value);
             const pool = new Pool(DB);
-            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
-                    VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
+            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time,  speed, angle, battery_level, message, args, lat, lon, ignition) 
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11);`, [
                 uid,
                 value.keyword,
                 value.date_time,
-                value.coordinate.lng,
-                value.coordinate.lat,
                 value.speed,
                 value.angle,
                 value.battery_level,
