@@ -57,7 +57,7 @@ module.exports = {
         if (error) {
             console.log('Error data came ', data);
             const pool = new Pool(DB);
-            pool.query(`INSERT INTO gps.tracking0 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
                     VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
                 uid,
                 value.keyword,
@@ -81,7 +81,7 @@ module.exports = {
         } else {
             console.log('True data came ', value);
             const pool = new Pool(DB);
-            pool.query(`INSERT INTO gps.tracking3 (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
+            pool.query(`INSERT INTO gps.tracking (device_id, keyword, date_time, coordinate, speed, angle, battery_level, message, args, lat, lon, ignition) 
                     VALUES ($1, $2, $3, ST_Transform(ST_SetSrid(ST_MakePoint($4, $5), 4326), 3857), $6, $7, $8, $9, $10, $11, $12, $13);`, [
                 uid,
                 value.keyword,
